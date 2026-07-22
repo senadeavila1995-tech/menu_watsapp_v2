@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Paleta inspirada en el Caribe / Atlántico: mar turquesa, sol, carnaval */
+  --costa-turquesa: #00a8a8;
+  --costa-turquesa-dark: #017a7a;
+  --costa-coral: #ff5a3c;
+  --costa-coral-dark: #e0431f;
+  --costa-amarillo: #ffc93c;
+  --costa-verde: #2ecc71;
+  --costa-marino: #0b2942;
+  --costa-crema: #fff8ec;
+
+  --text: #35424a;
+  --text-h: var(--costa-marino);
+  --bg: var(--costa-crema);
+  --border: #ecdfc7;
+  --shadow:
+    rgba(11, 41, 66, 0.12) 0 10px 20px -6px, rgba(11, 41, 66, 0.08) 0 4px 8px -2px;
+
+  --sans: 'Poppins', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Baloo 2', var(--sans);
+
+  font: 16px/145% var(--sans);
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
+  margin: 0 auto;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading);
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+p {
+  margin: 0;
+}

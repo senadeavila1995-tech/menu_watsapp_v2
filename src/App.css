@@ -1,0 +1,233 @@
+/* ============ NAVBAR ============ */
+.costa-navbar {
+  background: linear-gradient(135deg, var(--costa-turquesa) 0%, var(--costa-turquesa-dark) 100%);
+  padding: 14px 20px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.costa-navbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--costa-amarillo) 0 16px,
+    var(--costa-coral) 16px 32px
+  );
+}
+
+.costa-navbar .brand-title {
+  font-family: var(--heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.costa-navbar .brand-tag {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* ============ HERO ============ */
+.costa-hero {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 201, 60, 0.35), transparent 45%),
+    radial-gradient(circle at 85% 0%, rgba(255, 90, 60, 0.25), transparent 40%),
+    linear-gradient(180deg, var(--costa-marino) 0%, #123a54 100%);
+  color: #fff;
+  padding: 34px 20px 40px;
+  text-align: center;
+  border-radius: 0 0 28px 28px;
+  margin-bottom: 18px;
+}
+
+.costa-hero h1 {
+  color: #fff;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  margin: 0 0 6px;
+}
+
+.costa-hero p {
+  color: #e6f3f3;
+  font-size: 0.95rem;
+}
+
+.costa-badge-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.costa-badge-abierto {
+  background: rgba(46, 204, 113, 0.18);
+  color: #6bf2a1;
+  border: 1px solid rgba(107, 242, 161, 0.4);
+}
+
+.costa-badge-cerrado {
+  background: rgba(255, 90, 60, 0.18);
+  color: #ff9d8a;
+  border: 1px solid rgba(255, 157, 138, 0.4);
+}
+
+/* ============ FORM CLIENTE ============ */
+.costa-card {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+}
+
+.costa-card input.form-control {
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  padding: 10px 14px;
+}
+
+.costa-card input.form-control:focus {
+  border-color: var(--costa-turquesa);
+  box-shadow: 0 0 0 3px rgba(0, 168, 168, 0.15);
+}
+
+/* ============ CATEGORÍAS ============ */
+.costa-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 2px solid var(--costa-turquesa);
+  color: var(--costa-turquesa-dark);
+  background: #fff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.costa-chip:hover {
+  transform: translateY(-2px);
+}
+
+.costa-chip.activo {
+  background: var(--costa-coral);
+  border-color: var(--costa-coral);
+  color: #fff;
+  box-shadow: 0 6px 14px -4px rgba(255, 90, 60, 0.5);
+}
+
+/* ============ PRODUCTOS ============ */
+.costa-product-card {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s ease;
+}
+
+.costa-product-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.costa-product-card img {
+  height: 150px;
+  object-fit: cover;
+}
+
+.costa-product-card .precio {
+  color: var(--costa-turquesa-dark);
+  font-family: var(--heading);
+  font-size: 1.1rem;
+}
+
+.costa-btn-agregar {
+  background: var(--costa-coral);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: background 0.15s ease;
+}
+
+.costa-btn-agregar:hover {
+  background: var(--costa-coral-dark);
+  color: #fff;
+}
+
+/* ============ CARRITO ============ */
+.costa-carrito {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+}
+
+.costa-carrito h5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============ TOTAL / ENVIAR ============ */
+.costa-total {
+  font-family: var(--heading);
+  color: var(--costa-marino);
+}
+
+.costa-btn-whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c4a);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 18px -6px rgba(18, 140, 74, 0.55);
+}
+
+.costa-btn-whatsapp:hover {
+  color: #fff;
+  filter: brightness(1.05);
+}
+
+/* ============ BOTÓN FLOTANTE WHATSAPP ============ */
+.costa-fab-whatsapp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 10px 20px -6px rgba(0, 0, 0, 0.35);
+  border: none;
+  z-index: 50;
+}
+
+/* ============ FOOTER ============ */
+.costa-footer {
+  text-align: center;
+  padding: 26px 16px 90px;
+  color: var(--costa-marino);
+  opacity: 0.75;
+  font-size: 0.85rem;
+}
