@@ -18,6 +18,8 @@ import {
   FaMinus,
   FaPlus,
   FaTrash,
+  FaMotorcycle,
+  FaStar,
 } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -36,11 +38,15 @@ type Producto = {
   nombre: string;
   precio: number;
   categoria: Categoria;
+  descripcion: string;
+  imagen: string;
+  destacado?: boolean;
 };
 
-type ProductoCarrito = Producto & {
-  cantidad: number;
-};
+type ProductoCarrito = Producto & { cantidad: number };
+
+const IMAGEN_FALLBACK =
+  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=85";
 
 const CATEGORIAS: { key: Categoria; label: string; icon: React.ReactNode }[] = [
   { key: "chuzos", label: "Chuzos", icon: <FaFire /> },
@@ -51,53 +57,160 @@ const CATEGORIAS: { key: Categoria; label: string; icon: React.ReactNode }[] = [
   { key: "bebidas_licores", label: "Bebidas y licores", icon: <FaBeer /> },
 ];
 
+const productos: Producto[] = [
+  {
+    id: 1,
+    nombre: "Chuzo de Pollo",
+    precio: 12000,
+    categoria: "chuzos",
+    descripcion: "Pollo a la parrilla, doradito y lleno de sabor.",
+    imagen:
+      "https://images.unsplash.com/photo-1534790566855-4cb788d389ec?auto=format&fit=crop&w=900&q=85",
+    destacado: true,
+  },
+  {
+    id: 2,
+    nombre: "Chuzo Mixto",
+    precio: 15000,
+    categoria: "chuzos",
+    descripcion: "Una combinación irresistible de carnes a la parrilla.",
+    imagen:
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 3,
+    nombre: "Salchipapa Sencilla",
+    precio: 10000,
+    categoria: "salchipapas",
+    descripcion: "Papas crocantes, salchicha y nuestras salsas.",
+    imagen:
+      "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 4,
+    nombre: "Salchipapa Especial",
+    precio: 18000,
+    categoria: "salchipapas",
+    descripcion: "Papas, salchicha, queso y toppings para antojo grande.",
+    imagen:
+      "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=900&q=85",
+    destacado: true,
+  },
+  {
+    id: 5,
+    nombre: "Pizza Personal",
+    precio: 20000,
+    categoria: "pizzas",
+    descripcion: "Pizza recién horneada, perfecta para un antojo personal.",
+    imagen:
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 6,
+    nombre: "Pizza Familiar",
+    precio: 45000,
+    categoria: "pizzas",
+    descripcion: "Tamaño para compartir y disfrutar en familia.",
+    imagen:
+      "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=900&q=85",
+    destacado: true,
+  },
+  {
+    id: 7,
+    nombre: "Perro Sencillo",
+    precio: 8000,
+    categoria: "perros",
+    descripcion: "Perro caliente clásico con nuestras salsas.",
+    imagen:
+      "https://images.unsplash.com/photo-1612392062631-94dd858cba88?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 8,
+    nombre: "Perro Especial",
+    precio: 14000,
+    categoria: "perros",
+    descripcion: "Más toppings, más sabor y mucho más antojo.",
+    imagen:
+      "https://images.unsplash.com/photo-1612392062631-94dd858cba88?auto=format&fit=crop&w=900&q=85",
+    destacado: true,
+  },
+  {
+    id: 9,
+    nombre: "Hamburguesa",
+    precio: 15000,
+    categoria: "rapidas",
+    descripcion: "Carne jugosa, pan suave y toppings frescos.",
+    imagen:
+      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=85",
+    destacado: true,
+  },
+  {
+    id: 10,
+    nombre: "Arepa Rellena",
+    precio: 12000,
+    categoria: "rapidas",
+    descripcion: "Arepa dorada con relleno abundante y sabroso.",
+    imagen:
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 11,
+    nombre: "Patacón Mixto",
+    precio: 13000,
+    categoria: "rapidas",
+    descripcion: "Patacón crocante con una mezcla de sabores costeños.",
+    imagen:
+      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 12,
+    nombre: "Cerveza",
+    precio: 5000,
+    categoria: "bebidas_licores",
+    descripcion: "Bien fría para acompañar tu comida favorita.",
+    imagen:
+      "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 13,
+    nombre: "Gaseosa 1.5L",
+    precio: 6000,
+    categoria: "bebidas_licores",
+    descripcion: "Una bebida fría para compartir.",
+    imagen:
+      "https://images.unsplash.com/photo-1629203849820-fdd70d49c38e?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    id: 14,
+    nombre: "Ron 375ml",
+    precio: 35000,
+    categoria: "bebidas_licores",
+    descripcion: "Para acompañar la noche con responsabilidad.",
+    imagen:
+      "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?auto=format&fit=crop&w=900&q=85",
+  },
+];
+
 function App() {
   const [categoria, setCategoria] = useState<Categoria>("chuzos");
   const [carrito, setCarrito] = useState<ProductoCarrito[]>([]);
   const [horaActual, setHoraActual] = useState(new Date().getHours());
 
-  const [cliente, setCliente] = useState({
-    nombre: "",
-    telefono: "",
-    direccion: "",
-  });
+  const [cliente, setCliente] = useState({ nombre: "", telefono: "", direccion: "" });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setHoraActual(new Date().getHours());
-    }, 60000);
+    const interval = setInterval(() => setHoraActual(new Date().getHours()), 60000);
     return () => clearInterval(interval);
   }, []);
 
   const horaApertura = 10;
   const horaCierre = 23;
   const negocioAbierto = horaActual >= horaApertura && horaActual < horaCierre;
+  const productosFiltrados = productos.filter((p) => p.categoria === categoria);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCliente({ ...cliente, [e.target.name]: e.target.value });
   };
-
-  const obtenerImagen = (nombre: string) =>
-    `https://picsum.photos/seed/food-${nombre}/500/300`;
-
-  const productos: Producto[] = [
-    { id: 1, nombre: "Chuzo de Pollo", precio: 12000, categoria: "chuzos" },
-    { id: 2, nombre: "Chuzo Mixto", precio: 15000, categoria: "chuzos" },
-    { id: 3, nombre: "Salchipapa Sencilla", precio: 10000, categoria: "salchipapas" },
-    { id: 4, nombre: "Salchipapa Especial", precio: 18000, categoria: "salchipapas" },
-    { id: 5, nombre: "Pizza Personal", precio: 20000, categoria: "pizzas" },
-    { id: 6, nombre: "Pizza Familiar", precio: 45000, categoria: "pizzas" },
-    { id: 7, nombre: "Perro Sencillo", precio: 8000, categoria: "perros" },
-    { id: 8, nombre: "Perro Especial", precio: 14000, categoria: "perros" },
-    { id: 9, nombre: "Hamburguesa", precio: 15000, categoria: "rapidas" },
-    { id: 10, nombre: "Arepa Rellena", precio: 12000, categoria: "rapidas" },
-    { id: 11, nombre: "Patacón Mixto", precio: 13000, categoria: "rapidas" },
-    { id: 12, nombre: "Cerveza", precio: 5000, categoria: "bebidas_licores" },
-    { id: 13, nombre: "Gaseosa 1.5L", precio: 6000, categoria: "bebidas_licores" },
-    { id: 14, nombre: "Ron 375ml", precio: 35000, categoria: "bebidas_licores" },
-  ];
-
-  const productosFiltrados = productos.filter((p) => p.categoria === categoria);
 
   const agregarAlCarrito = (producto: Producto) => {
     if (!negocioAbierto) {
@@ -112,35 +225,22 @@ function App() {
 
     setCarrito((prev) => {
       const existe = prev.find((p) => p.id === producto.id);
-
       if (existe) {
-        Swal.fire({
-          icon: "success",
-          title: "Producto actualizado",
-          timer: 900,
-          showConfirmButton: false,
-        });
-
-        return prev.map((p) =>
-          p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p
-        );
+        return prev.map((p) => (p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p));
       }
-
-      Swal.fire({
-        icon: "success",
-        title: "¡Agregado al carrito! 🌴",
-        timer: 900,
-        showConfirmButton: false,
-      });
-
       return [...prev, { ...producto, cantidad: 1 }];
+    });
+
+    Swal.fire({
+      icon: "success",
+      title: "¡Agregado al carrito!",
+      timer: 850,
+      showConfirmButton: false,
     });
   };
 
   const aumentarCantidad = (id: number) => {
-    setCarrito((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p))
-    );
+    setCarrito((prev) => prev.map((p) => (p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p)));
   };
 
   const disminuirCantidad = (id: number) => {
@@ -157,42 +257,23 @@ function App() {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
       confirmButtonColor: "#ff5a3c",
     }).then((result) => {
-      if (result.isConfirmed) {
-        setCarrito((prev) => prev.filter((p) => p.id !== id));
-        Swal.fire("Eliminado", "Producto removido", "success");
-      }
+      if (result.isConfirmed) setCarrito((prev) => prev.filter((p) => p.id !== id));
     });
   };
 
   const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
   const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
-
   const numeroWhatsapp = "573157957224";
 
   const construirMensaje = () => {
     const mensaje = carrito
-      .map(
-        (p) =>
-          `• ${p.nombre} x${p.cantidad} = $${(
-            p.precio * p.cantidad
-          ).toLocaleString("es-CO")}`
-      )
+      .map((p) => `• ${p.nombre} x${p.cantidad} = $${(p.precio * p.cantidad).toLocaleString("es-CO")}`)
       .join("\n");
 
-    return `
-🌴 *NUEVO PEDIDO - FAST FOOD COSTA*
-
-👤 ${cliente.nombre}
-📞 ${cliente.telefono}
-📍 ${cliente.direccion}
-
-🍟 Pedido:
-${mensaje}
-
-💰 Total: $${total.toLocaleString("es-CO")}
-`;
+    return `🌴 *NUEVO PEDIDO - FAST FOOD COSTA*\n\n👤 ${cliente.nombre}\n📞 ${cliente.telefono}\n📍 ${cliente.direccion}\n\n🍟 *Pedido:*\n${mensaje}\n\n💰 *Total: $${total.toLocaleString("es-CO")}*`;
   };
 
   const enviarPedido = () => {
@@ -207,217 +288,188 @@ ${mensaje}
     }
 
     if (carrito.length === 0) {
-      Swal.fire({
-        icon: "info",
-        title: "Carrito vacío",
-      });
+      Swal.fire({ icon: "info", title: "Carrito vacío", text: "Agrega al menos un producto." });
       return;
     }
 
-    Swal.fire({
-      icon: "success",
-      title: "Pedido enviado 🚀",
-      text: "Te redirigimos a WhatsApp",
-      confirmButtonColor: "#017a7a",
-    });
-
-    window.open(
-      `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(construirMensaje())}`,
-      "_blank"
-    );
+    window.open(`https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(construirMensaje())}`, "_blank");
   };
 
-  const irAlCarritoRapido = () => {
-    document.getElementById("carrito")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const irAlCarritoRapido = () => document.getElementById("carrito")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100svh" }}>
-
-      {/* NAVBAR */}
-      <div className="costa-navbar">
-        <span style={{ fontSize: "1.6rem" }}>🌴</span>
+    <div className="costa-app">
+      <header className="costa-navbar">
+        <div className="brand-mark">🌴</div>
         <div>
           <p className="brand-title">Fast Food Costa</p>
           <p className="brand-tag">Sabor del Atlántico, directo a tu WhatsApp</p>
         </div>
-      </div>
-
-      {/* HERO */}
-      <div className="costa-hero">
-        <h1>🍔 Antojos costeños a un mensaje de distancia</h1>
-        <p className="mb-3">Chuzos, salchipapas, pizzas y más, con sabor de la Costa Caribe</p>
-        <span
-          className={clsx(
-            "costa-badge-estado",
-            negocioAbierto ? "costa-badge-abierto" : "costa-badge-cerrado"
-          )}
-        >
-          <FaClock /> {negocioAbierto ? "Abierto ahora" : "Cerrado"} · 10:00 AM - 11:00 PM
-        </span>
-      </div>
-
-      <div className="container pb-5">
-
-        {/* CLIENTE */}
-        <div className="costa-card shadow-sm p-3 mb-4">
-          <h6 className="mb-3 d-flex align-items-center gap-2">
-            <FaUser /> Datos para tu pedido
-          </h6>
-
-          <input
-            className="form-control mb-2"
-            name="nombre"
-            placeholder="Nombre completo"
-            onChange={handleChange}
-          />
-          <input
-            className="form-control mb-2"
-            name="telefono"
-            placeholder="Teléfono / WhatsApp"
-            onChange={handleChange}
-          />
-          <input
-            className="form-control"
-            name="direccion"
-            placeholder="Dirección de entrega (barrio, calle)"
-            onChange={handleChange}
-          />
+        <div className="navbar-open-status">
+          <span className={clsx("status-dot", negocioAbierto ? "is-open" : "is-closed")} />
+          {negocioAbierto ? "Abierto" : "Cerrado"}
         </div>
+      </header>
 
-        {/* CATEGORÍAS */}
-        <div className="d-flex gap-2 justify-content-center flex-wrap mb-4">
-          {CATEGORIAS.map((c) => (
-            <button
-              key={c.key}
-              className={clsx("costa-chip", { activo: categoria === c.key })}
-              onClick={() => setCategoria(c.key)}
-            >
-              {c.icon} {c.label}
-            </button>
-          ))}
+      <section className="costa-hero">
+        <div className="hero-overlay" />
+        <div className="hero-content">
+          <span className="hero-kicker"><FaStar /> Hecho para antojos grandes</span>
+          <h1>Tu próximo antojo empieza aquí.</h1>
+          <p>Chuzos, salchipapas, pizzas y más. Elige, arma tu pedido y mándalo por WhatsApp.</p>
+          <div className="hero-actions">
+            <span className="costa-badge-estado">
+              <FaClock /> {negocioAbierto ? "Abierto ahora" : "Cerrado"} · 10:00 AM - 11:00 PM
+            </span>
+            <span className="hero-delivery"><FaMotorcycle /> Domicilios por WhatsApp</span>
+          </div>
         </div>
+      </section>
 
-        {/* PRODUCTOS */}
-        <div className="row g-3 mb-4">
-          <AnimatePresence mode="popLayout">
-            {productosFiltrados.map((p) => (
-              <motion.div
-                key={p.id}
-                className="col-6 col-md-4"
-                layout
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="costa-product-card h-100">
-                  <img src={obtenerImagen(p.nombre)} className="card-img-top w-100" alt={p.nombre} />
-                  <div className="card-body text-center">
-                    <h6 className="fw-bold mb-1">{p.nombre}</h6>
-                    <p className="precio fw-bold mb-3">
-                      ${p.precio.toLocaleString("es-CO")}
-                    </p>
+      <main className="container costa-main pb-5">
+        <section className="costa-card customer-card shadow-sm mb-4">
+          <div className="section-heading">
+            <div className="section-icon"><FaUser /></div>
+            <div>
+              <span className="section-eyebrow">Antes de pedir</span>
+              <h2>¿A dónde te llevamos tu antojo?</h2>
+            </div>
+          </div>
+          <div className="row g-2">
+            <div className="col-md-4">
+              <input className="form-control" name="nombre" placeholder="Nombre completo" onChange={handleChange} />
+            </div>
+            <div className="col-md-4">
+              <input className="form-control" name="telefono" placeholder="Teléfono / WhatsApp" onChange={handleChange} />
+            </div>
+            <div className="col-md-4">
+              <input className="form-control" name="direccion" placeholder="Dirección de entrega" onChange={handleChange} />
+            </div>
+          </div>
+        </section>
 
-                    <button
-                      className="costa-btn-agregar w-100 py-2"
-                      onClick={() => agregarAlCarrito(p)}
-                    >
-                      🍟 Agregar
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
+        <section className="menu-section">
+          <div className="section-heading menu-title-row">
+            <div>
+              <span className="section-eyebrow">Explora el menú</span>
+              <h2>¿Qué se te antoja hoy?</h2>
+            </div>
+            {totalItems > 0 && <button className="mini-cart" onClick={irAlCarritoRapido}><FaShoppingCart /> {totalItems} productos</button>}
+          </div>
+
+          <div className="category-scroller mb-4">
+            {CATEGORIAS.map((c) => (
+              <button key={c.key} className={clsx("costa-chip", { activo: categoria === c.key })} onClick={() => setCategoria(c.key)}>
+                {c.icon} <span>{c.label}</span>
+              </button>
             ))}
-          </AnimatePresence>
-        </div>
+          </div>
 
-        {/* CARRITO */}
-        <div id="carrito" className="costa-carrito p-3 shadow-sm mb-4">
-          <h5 className="mb-3">
-            <FaShoppingCart /> Tu carrito {totalItems > 0 && `(${totalItems})`}
-          </h5>
-
-          {carrito.length === 0 ? (
-            <p className="text-muted mb-0">Aún no has agregado productos</p>
-          ) : (
-            <AnimatePresence>
-              {carrito.map((p) => (
+          <div className="row g-3 g-lg-4">
+            <AnimatePresence mode="popLayout">
+              {productosFiltrados.map((p) => (
                 <motion.div
                   key={p.id}
+                  className="col-6 col-md-4 col-xl-3"
                   layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2"
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -18 }}
+                  transition={{ duration: 0.22 }}
                 >
-                  <span className="fw-bold">{p.nombre}</span>
-
-                  <div className="d-flex align-items-center gap-2">
-                    <div className="btn-group">
-                      <button
-                        className="btn btn-sm btn-outline-dark"
-                        onClick={() => disminuirCantidad(p.id)}
-                      >
-                        <FaMinus size={11} />
-                      </button>
-                      <span className="px-2">{p.cantidad}</span>
-                      <button
-                        className="btn btn-sm btn-outline-dark"
-                        onClick={() => aumentarCantidad(p.id)}
-                      >
-                        <FaPlus size={11} />
-                      </button>
+                  <article className="costa-product-card h-100">
+                    <div className="product-image-wrap">
+                      <img
+                        src={p.imagen}
+                        className="product-image"
+                        alt={p.nombre}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = IMAGEN_FALLBACK;
+                        }}
+                      />
+                      {p.destacado && <span className="product-badge"><FaStar /> Favorito</span>}
                     </div>
-
-                    <strong>${(p.precio * p.cantidad).toLocaleString("es-CO")}</strong>
-
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => eliminarProducto(p.id)}
-                    >
-                      <FaTrash size={12} />
-                    </button>
-                  </div>
+                    <div className="product-content">
+                      <h3>{p.nombre}</h3>
+                      <p className="product-description">{p.descripcion}</p>
+                      <div className="product-footer">
+                        <span className="precio">${p.precio.toLocaleString("es-CO")}</span>
+                        <button className="costa-btn-agregar" onClick={() => agregarAlCarrito(p)} aria-label={`Agregar ${p.nombre}`}>
+                          <FaPlus /> Agregar
+                        </button>
+                      </div>
+                    </div>
+                  </article>
                 </motion.div>
               ))}
             </AnimatePresence>
+          </div>
+        </section>
+
+        <section id="carrito" className="costa-carrito shadow-sm mt-5">
+          <div className="cart-header">
+            <div>
+              <span className="section-eyebrow">Tu selección</span>
+              <h2><FaShoppingCart /> Carrito {totalItems > 0 && <span>({totalItems})</span>}</h2>
+            </div>
+            <span className="cart-total-small">${total.toLocaleString("es-CO")}</span>
+          </div>
+
+          {carrito.length === 0 ? (
+            <div className="empty-cart">
+              <div className="empty-cart-icon">🍟</div>
+              <strong>Tu carrito está esperando un antojo.</strong>
+              <span>Agrega tus favoritos y aquí aparecerá tu pedido.</span>
+            </div>
+          ) : (
+            <div className="cart-items">
+              <AnimatePresence>
+                {carrito.map((p) => (
+                  <motion.div key={p.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -20 }} className="cart-item">
+                    <img src={p.imagen} alt="" onError={(e) => { e.currentTarget.src = IMAGEN_FALLBACK; }} />
+                    <div className="cart-item-info">
+                      <strong>{p.nombre}</strong>
+                      <span>${p.precio.toLocaleString("es-CO")} c/u</span>
+                    </div>
+                    <div className="cart-controls">
+                      <div className="quantity-control">
+                        <button onClick={() => disminuirCantidad(p.id)}><FaMinus /></button>
+                        <span>{p.cantidad}</span>
+                        <button onClick={() => aumentarCantidad(p.id)}><FaPlus /></button>
+                      </div>
+                      <strong className="cart-line-total">${(p.precio * p.cantidad).toLocaleString("es-CO")}</strong>
+                      <button className="delete-btn" onClick={() => eliminarProducto(p.id)} aria-label={`Eliminar ${p.nombre}`}><FaTrash /></button>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           )}
-        </div>
+        </section>
 
-        {/* TOTAL */}
-        <div className="text-center">
-          <h4 className="costa-total fw-bold mb-3">
-            Total: ${total.toLocaleString("es-CO")}
-          </h4>
-
-          <button className="costa-btn-whatsapp px-4 py-2" onClick={enviarPedido}>
-            <FaWhatsapp size={20} /> Enviar pedido por WhatsApp
+        <section className="checkout-card mt-4">
+          <div>
+            <span className="section-eyebrow">Listo para pedir</span>
+            <h2>Total del pedido</h2>
+          </div>
+          <div className="checkout-total">${total.toLocaleString("es-CO")}</div>
+          <button className="costa-btn-whatsapp" onClick={enviarPedido}>
+            <FaWhatsapp size={22} /> Enviar pedido por WhatsApp
           </button>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      {/* FOOTER */}
-      <div className="costa-footer">
-        <p className="d-flex align-items-center justify-content-center gap-2 mb-1">
-          <FaMapMarkerAlt /> Atlántico, Colombia
-        </p>
-        <p className="d-flex align-items-center justify-content-center gap-2">
-          <FaPhoneAlt /> {numeroWhatsapp}
-        </p>
-      </div>
+      <footer className="costa-footer">
+        <p className="footer-brand">🌴 Fast Food Costa</p>
+        <p><FaMapMarkerAlt /> Atlántico, Colombia · <FaPhoneAlt /> {numeroWhatsapp}</p>
+        <small>Menú digital · Pedidos rápidos por WhatsApp</small>
+      </footer>
 
-      {/* BOTÓN FLOTANTE */}
       {carrito.length > 0 && (
-        <motion.button
-          className="costa-fab-whatsapp"
-          onClick={irAlCarritoRapido}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          whileTap={{ scale: 0.9 }}
-        >
+        <motion.button className="costa-fab-whatsapp" onClick={irAlCarritoRapido} initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}>
           <FaShoppingCart />
+          <span>{totalItems}</span>
         </motion.button>
       )}
     </div>
